@@ -20,7 +20,7 @@ const HomePage = () => {
   const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
 
   const [cartItems, setCartItems] = useOutletContext();
-
+  
   const pageButtonStyle = (page) => {
     return currentPage == page
       ? "mx-1 px-6 py-4 rounded shadow text-white bg-cyan-dark font-bold"
@@ -79,47 +79,61 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    console.log(productList);
-  });
+    const message = localStorage.getItem("toastMessage");
+    console.log(message);
+    if (message) {
+      toast.success(message, {
+        onClose: () => {
+          localStorage.removeItem("toastMessage");
+        },
+      });
+    }
+
+  }, []);
 
   return (
     <div>
-      <BannerSection />
-      <div className="w-[100vw]">
-        <section id="products" className="pt-[8rem]">
-          <div className="container mx-auto">
-            <h1 className="text-3xl font-semibold mb-10 text-center">
-              Explore Our Products
-            </h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-screen-lg mx-auto">
-              {loading && <span>Loading...</span>}
+      <div>
+        <BannerSection />
+        <div className="w-[100vw]">
+          <section id="products" className="pt-[8rem]">
+            <div className="container mx-auto">
+              <h1 className="text-3xl font-semibold mb-10 text-center">
+                Explore Our Products
+              </h1>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-screen-lg mx-auto">
+                {loading && <span>Loading...</span>}
 
-              {!loading &&
-                currentItems.map((item, index) => (
-                  <ProductCard
-                    key={index}
-                    productData={item}
-                    addToCart={addToCart}
-                  />
-                ))}
+                {!loading &&
+                  currentItems.map((item, index) => (
+                    <ProductCard
+                      key={index}
+                      productData={item}
+                      addToCart={addToCart}
+                    />
+                  ))}
+              </div>
+              <nav className="my-4">
+                <ul className="flex justify-center">
+                  {Array.from({ length: totalPages }).map((_, index) => (
+                    <li key={index}>
+                      <button
+                        className={pageButtonStyle(index + 1)}
+                        onClick={() => paginate(index + 1)}
+                      >
+                        {index + 1}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+        
             </div>
-            <nav className="my-4">
-              <ul className="flex justify-center">
-                {Array.from({ length: totalPages }).map((_, index) => (
-                  <li key={index}>
-                    <button
-                      className={pageButtonStyle(index + 1)}
-                      onClick={() => paginate(index + 1)}
-                    >
-                      {index + 1}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
-        </section>
+          </section>
+        </div>
       </div>
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }

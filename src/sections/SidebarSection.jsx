@@ -15,10 +15,6 @@ const SidebarSection = ({cartItems, setCartItems, sidebarOpen, setSidebarOpen}) 
     setSidebarOpen(false)
   }
 
-  useEffect(() => {
-    console.log(cartItems);
-  })
-
   const getTotalPrice = () => {
     let total = 0;
     cartItems.map((item) => (total += item.price));

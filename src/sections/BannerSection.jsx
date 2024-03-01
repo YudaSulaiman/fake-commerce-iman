@@ -1,6 +1,12 @@
 import React from 'react'
 
 const BannerSection = () => {
+
+  const scrollToProduct = () => {
+    const scrollTo = document.getElementById("products");
+    scrollTo.scrollIntoView({behavior: "smooth"});
+  }
+
   return (
     <div>
       <div className="w-[100vw]">
@@ -15,7 +21,9 @@ const BannerSection = () => {
                 <br />
                 <span className="font-light text-lg">new collection</span>
               </h1>
-              <a className="self-start uppercase font-semibold border-b-2 border-primary text-2xl cursor-pointer">
+              <a className="self-start uppercase font-semibold border-b-2 border-primary text-2xl cursor-pointer"
+                onClick={scrollToProduct}
+              >
                 Discover More
               </a>
             </div>

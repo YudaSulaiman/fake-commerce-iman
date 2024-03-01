@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
-import { toast } from 'react-toastify'
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignInUpPages = () => {
   const [username, setUsername] = useState("");
@@ -32,13 +33,15 @@ const SignInUpPages = () => {
           console.log(response.status, response.data.token);
           if (response.status === 200) {
             localStorage.setItem("isLogin", true);
-            location.replace("/");
+            setTimeout(() => {
+              location.replace("/");
+            }, 500);
             localStorage.setItem("toastMessage", "Login successful!");
           }
         })
         .catch((error) => {
-          alert("Wrong username or password");
           setIsSubmitting(false);
+          toast.error("Wrong username or password");
           console.error("Error:", error);
         });
     }
@@ -61,7 +64,9 @@ const SignInUpPages = () => {
           console.log(response.status, response.data.token);
           if (response.status === 200) {
             localStorage.setItem("isLogin", true);
-            location.replace("/");
+            setTimeout(() => {
+              location.replace("/");
+            }, 500);
             localStorage.setItem("toastMessage", "Sign up successful!");
           }
         })
@@ -183,6 +188,7 @@ const SignInUpPages = () => {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
